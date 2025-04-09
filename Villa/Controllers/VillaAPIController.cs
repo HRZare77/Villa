@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Villa;
+using Villa.Models.Dto;
 
 namespace Villa.Controllers
 {
@@ -9,12 +10,12 @@ namespace Villa.Controllers
     public class VillaAPIController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Models.Villa> GetVillas()
+        public IEnumerable<VillaDTo> GetVillas()
         {
-            return new List<Models.Villa>
+            return new List<VillaDTo>
             {
-                new Models.Villa { Id = 1, Name = "Villa 1" },
-                new Models.Villa { Id = 2, Name = "Villa 2" }
+                new VillaDTo { Id = 1, Name = "Villa 1" },
+                new VillaDTo { Id = 2, Name = "Villa 2" }
             };
         }
     }
