@@ -36,6 +36,7 @@ namespace Villa.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<VillaDTo> CreateVilla([FromBody] VillaDTo villaDTovilla)
         {
             if (VillaStore.villaList.FirstOrDefault(u=>u.Name.ToLower()==villaDTovilla.Name.ToLower())!=null)
@@ -58,6 +59,9 @@ namespace Villa.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<VillaDTo> DeleteVilla(int id)
         {
             if (id == 0)
@@ -72,5 +76,24 @@ namespace Villa.Controllers
             VillaStore.villaList.Remove(villa);
             return NoContent();
         }
-    }
+
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<VillaDTo> UpdateVilla(int id, [FromBody] VillaDTo villaDTovilla)
+        {
+            if (villaDTovilla == null || id != villaDTovilla.Id)
+            {
+                return BadRequest();
+            }
+            var villa = VillaStore.villaList.FirstOrDefault(v => v.Id == id);
+            if (villa == null)
+            {
+                return NotFound();
+            }
+            villa.Name = villaDTovilla.Name;
+            villa.Occupancy = villaDTovilla.Occupancy;
+            villa.Sqft = villaDTovilla.Sqft;
+            return NoContent();
+        }
 }

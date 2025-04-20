@@ -9,17 +9,23 @@ namespace Villa.Data
             new VillaDTo
             {
                 Id = 1,
-                Name = "Royal Villa"
+                Name = "Royal Villa",
+                Occupancy = 2,
+                Sqft = 500
             },
             new VillaDTo
             {
                 Id = 2,
-                Name = "Luxury Villa"
+                Name = "Luxury Villa",
+                Occupancy = 4,
+                Sqft = 800
             },
             new VillaDTo
             {
                 Id = 3,
-                Name = "Beachfront Villa"
+                Name = "Beachfront Villa",
+                Occupancy = 6,
+                Sqft = 1200
             }
         };
     }
