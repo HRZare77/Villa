@@ -38,6 +38,12 @@ namespace Villa.Controllers
         [HttpPost]
         public ActionResult<VillaDTo> CreateVilla([FromBody] VillaDTo villaDTovilla)
         {
+            if (VillaStore.villaList.FirstOrDefault(u=>u.Name.ToLower()==villaDTovilla.Name.ToLower())!=null)
+            {
+                ModelState.AddModelError("CustomError", "Villa already exists!");
+                return BadRequest(ModelState);
+            }
+
             if (villaDTovilla == null)
             {
                 return BadRequest(villaDTovilla);
