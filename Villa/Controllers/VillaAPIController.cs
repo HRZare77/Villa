@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Villa;
 using Villa.Data;
@@ -39,7 +40,7 @@ namespace Villa.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<VillaDTo> CreateVilla([FromBody] VillaDTo villaDTovilla)
         {
-            if (VillaStore.villaList.FirstOrDefault(u=>u.Name.ToLower()==villaDTovilla.Name.ToLower())!=null)
+            if (VillaStore.villaList.FirstOrDefault(u => u.Name.ToLower() == villaDTovilla.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Villa already exists!");
                 return BadRequest(ModelState);
@@ -96,4 +97,27 @@ namespace Villa.Controllers
             villa.Sqft = villaDTovilla.Sqft;
             return NoContent();
         }
+
+        [HttpPatch("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<VillaDTo> UpdatePartialVilla(int id, JsonPatchDocument<VillaDTo> patchDTO)
+        {
+            if (patchDTO == null || id == 0)
+            {
+                return BadRequest();
+            }
+            var villa = VillaStore.villaList.FirstOrDefault(v => v.Id == id);
+            if (villa == null)
+            {
+                return NotFound();
+            }
+            patchDTO.ApplyTo(villa, ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+    }
 }
