@@ -34,5 +34,21 @@ namespace Villa.Controllers
             }
             return Ok(villa);
         }
+
+        [HttpPost]
+        public ActionResult<VillaDTo> CreateVilla([FromBody] VillaDTo villaDTovilla)
+        {
+            if (villaDTovilla == null)
+            {
+                return BadRequest(villaDTovilla);
+            }
+            if (villaDTovilla.Id > 0)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            villaDTovilla.Id = VillaStore.villaList.OrderByDescending(v => v.Id).FirstOrDefault().Id + 1;
+            VillaStore.villaList.Add(villaDTovilla);
+            return CreatedAtRoute("GetVilla", new { id = villaDTovilla.Id }, villaDTovilla);
+        }
     }
 }
