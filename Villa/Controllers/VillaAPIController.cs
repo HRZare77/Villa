@@ -56,5 +56,21 @@ namespace Villa.Controllers
             VillaStore.villaList.Add(villaDTovilla);
             return CreatedAtRoute("GetVilla", new { id = villaDTovilla.Id }, villaDTovilla);
         }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult<VillaDTo> DeleteVilla(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+            var villa = VillaStore.villaList.FirstOrDefault(v => v.Id == id);
+            if (villa == null)
+            {
+                return NotFound();
+            }
+            VillaStore.villaList.Remove(villa);
+            return NoContent();
+        }
     }
 }
