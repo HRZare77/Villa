@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Villa.Data;
 using Villa.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Host.UseSerilog();
 
 builder.Services.AddSingleton<ILogging,LoggingV2>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DBServer140"));
+});
 
 builder.Services.AddControllers(option =>
 {
