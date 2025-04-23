@@ -10,7 +10,7 @@
         public string Amenity { get; set; }
         public string Details { get; set; }
         public double Rate { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
     }
 }

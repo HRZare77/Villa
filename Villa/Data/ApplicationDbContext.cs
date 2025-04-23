@@ -27,7 +27,9 @@ namespace Villa.Data
                     ImageUrl = "https://example.com/royal-villa.jpg",
                     Amenity = "Pool, Gym",
                     Details = "Luxurious villa with a private pool and gym.",
-                    Rate = 200.00
+                    Rate = 200.00,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
                 },
                 new Villa.Models.Villa
                 {
@@ -38,7 +40,9 @@ namespace Villa.Data
                     ImageUrl = "https://example.com/beachfront-villa.jpg",
                     Amenity = "Beach Access, Spa",
                     Details = "Beautiful villa with direct beach access and spa services.",
-                    Rate = 250.00
+                    Rate = 250.00,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
                 },
                 new Villa.Models.Villa
                 {
@@ -49,7 +53,9 @@ namespace Villa.Data
                     ImageUrl = "https://example.com/mountain-view-villa.jpg",
                     Amenity = "Hiking, Fireplace",
                     Details = "Cozy villa with stunning mountain views and a fireplace.",
-                    Rate = 180.00
+                    Rate = 180.00,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
                 },
                 new Villa.Models.Villa
                 {
@@ -60,7 +66,9 @@ namespace Villa.Data
                     ImageUrl = "https://example.com/luxury-villa.jpg",
                     Amenity = "Private Chef, Pool",
                     Details = "Spacious villa with a private chef and pool.",
-                    Rate = 300.00
+                    Rate = 300.00,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
                 }
                 );
         }
