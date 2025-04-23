@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Villa;
 using Villa.Data;
 using Villa.Logging;
@@ -141,7 +142,7 @@ namespace Villa.Controllers
             {
                 return BadRequest();
             }
-            var villa = _applicationDbContext.Villas.FirstOrDefault(v => v.Id == id);
+            var villa = _applicationDbContext.Villas.AsNoTracking().FirstOrDefault(v => v.Id == id);
 
             VillaDTo villaDTo = new()
             {
