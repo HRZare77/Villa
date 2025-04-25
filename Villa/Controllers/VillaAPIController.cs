@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,13 @@ namespace Villa.Controllers
     {
         private readonly ILogging _logger;
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IMapper _mapper;
 
-        public VillaAPIController(ILogging logger, ApplicationDbContext applicationDbContext)
+        public VillaAPIController(ILogging logger, ApplicationDbContext applicationDbContext,IMapper mapper)
         {
             _logger = logger;
             _applicationDbContext = applicationDbContext;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,7 +30,8 @@ namespace Villa.Controllers
         public async Task<ActionResult<VillaDTo>> GetVillas()
         {
             _logger.Log("Getting all villas","");
-            return Ok(await _applicationDbContext.Villas.ToListAsync());
+            List<Models.Villa> villaList = await _applicationDbContext.Villas.ToListAsync();
+            return Ok(_mapper.Map<VillaDTo>(villaList));
         }
 
         [HttpGet("{id:int}")]
@@ -46,7 +50,7 @@ namespace Villa.Controllers
             {
                 return NotFound();
             }
-            return Ok(villa);
+            return Ok(_mapper.Map<VillaDTo>(villa));
         }
 
         [HttpPost]
@@ -67,19 +71,20 @@ namespace Villa.Controllers
             //{
             //    return StatusCode(StatusCodes.Status500InternalServerError);
             //}
+            Models.Villa villa = _mapper.Map<Models.Villa>(villaDTovilla);
 
-         Models.Villa villa = new()
-            {
-                Name = villaDTovilla.Name,
-                Occupancy = villaDTovilla.Occupancy,
-                Sqft = villaDTovilla.Sqft,
-                ImageUrl = villaDTovilla.ImageUrl,
-                Amenity = villaDTovilla.Amenity,
-                Details = villaDTovilla.Details,
-                Rate = villaDTovilla.Rate,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
-            };
+            //Models.Villa villa = new()
+            //{
+            //    Name = villaDTovilla.Name,
+            //    Occupancy = villaDTovilla.Occupancy,
+            //    Sqft = villaDTovilla.Sqft,
+            //    ImageUrl = villaDTovilla.ImageUrl,
+            //    Amenity = villaDTovilla.Amenity,
+            //    Details = villaDTovilla.Details,
+            //    Rate = villaDTovilla.Rate,
+            //    CreatedDate = DateTime.Now,
+            //    UpdatedDate = DateTime.Now
+            //};
 
             await _applicationDbContext.Villas.AddAsync(villa);
             await _applicationDbContext.SaveChangesAsync();
@@ -115,19 +120,21 @@ namespace Villa.Controllers
             {
                 return BadRequest();
             }
-           
-            Models.Villa villa = new()
-            {
-                Name = villaDTovilla.Name,
-                Occupancy = villaDTovilla.Occupancy,
-                Sqft = villaDTovilla.Sqft,
-                ImageUrl = villaDTovilla.ImageUrl,
-                Amenity = villaDTovilla.Amenity,
-                Details = villaDTovilla.Details,
-                Rate = villaDTovilla.Rate,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
-            };
+
+            Models.Villa villa = _mapper.Map<Models.Villa>(villaDTovilla);
+
+            //Models.Villa villa = new()
+            //{
+            //    Name = villaDTovilla.Name,
+            //    Occupancy = villaDTovilla.Occupancy,
+            //    Sqft = villaDTovilla.Sqft,
+            //    ImageUrl = villaDTovilla.ImageUrl,
+            //    Amenity = villaDTovilla.Amenity,
+            //    Details = villaDTovilla.Details,
+            //    Rate = villaDTovilla.Rate,
+            //    CreatedDate = DateTime.Now,
+            //    UpdatedDate = DateTime.Now
+            //};
             _applicationDbContext.Villas.Update(villa);
             await _applicationDbContext.SaveChangesAsync();
             return NoContent();
@@ -144,16 +151,18 @@ namespace Villa.Controllers
             }
             var villa = await _applicationDbContext.Villas.AsNoTracking().FirstOrDefaultAsync(v => v.Id == id);
 
-            VillaUpdateDTo villaDTo = new()
-            {
-                Name = villa.Name,
-                Occupancy = villa.Occupancy,
-                Sqft = villa.Sqft,
-                ImageUrl = villa.ImageUrl,
-                Amenity = villa.Amenity,
-                Details = villa.Details,
-                Rate = villa.Rate
-            };  
+            VillaUpdateDTo villaDTo=_mapper.Map<VillaUpdateDTo>(villa);
+
+            //VillaUpdateDTo villaDTo = new()
+            //{
+            //    Name = villa.Name,
+            //    Occupancy = villa.Occupancy,
+            //    Sqft = villa.Sqft,
+            //    ImageUrl = villa.ImageUrl,
+            //    Amenity = villa.Amenity,
+            //    Details = villa.Details,
+            //    Rate = villa.Rate
+            //};  
 
             if (villa == null)
             {
@@ -162,16 +171,18 @@ namespace Villa.Controllers
 
             patchDTO.ApplyTo(villaDTo, ModelState);
 
-            Models.Villa villaModel = new()
-            {
-                Name = villaDTo.Name,
-                Occupancy = villaDTo.Occupancy,
-                Sqft = villaDTo.Sqft,
-                ImageUrl = villaDTo.ImageUrl,
-                Amenity = villaDTo.Amenity,
-                Details = villaDTo.Details,
-                Rate = villaDTo.Rate
-            };
+            Models.Villa villaModel = _mapper.Map<Models.Villa>(villaDTo);
+
+            //Models.Villa villaModel = new()
+            //{
+            //    Name = villaDTo.Name,
+            //    Occupancy = villaDTo.Occupancy,
+            //    Sqft = villaDTo.Sqft,
+            //    ImageUrl = villaDTo.ImageUrl,
+            //    Amenity = villaDTo.Amenity,
+            //    Details = villaDTo.Details,
+            //    Rate = villaDTo.Rate
+            //};
 
             _applicationDbContext.Villas.Update(villaModel);
             await _applicationDbContext.SaveChangesAsync();

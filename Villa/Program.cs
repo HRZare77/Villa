@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Villa;
 using Villa.Data;
 using Villa.Logging;
 
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DBServer140"));
 });
+
+builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 
 builder.Services.AddControllers(option =>
 {
