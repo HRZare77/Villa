@@ -16,7 +16,7 @@ namespace Villa.Repository
         {
            await _db.Villas.AddAsync(entity);
             await SaveAsync();
-        }
+        } 
         public async Task<IEnumerable<Models.Villa>> GetAllAsync(Expression<Func<Models.Villa, bool>>? filter = null)
         {
             IQueryable<Models.Villa> query = _db.Villas;
@@ -44,9 +44,10 @@ namespace Villa.Repository
         {
              await _db.SaveChangesAsync();
         }
-        public Task UpdateAsync(Models.Villa entity)
+        public async Task UpdateAsync(Models.Villa entity)
         {
-            throw new NotImplementedException();
+            _db.Villas.Update(entity);
+            await SaveAsync();
         }
     }
 }

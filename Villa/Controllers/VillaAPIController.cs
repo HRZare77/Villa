@@ -7,6 +7,8 @@ using Villa;
 using Villa.Data;
 using Villa.Logging;
 using Villa.Models.Dto;
+using Villa.Repository;
+using Villa.Repository.IRepository;
 
 namespace Villa.Controllers
 {
@@ -15,14 +17,14 @@ namespace Villa.Controllers
     public class VillaAPIController : ControllerBase
     {
         private readonly ILogging _logger;
-        private readonly ApplicationDbContext _applicationDbContext;
         private readonly IMapper _mapper;
+        private readonly IVillaRepository _villaRepository;
 
-        public VillaAPIController(ILogging logger, ApplicationDbContext applicationDbContext,IMapper mapper)
+        public VillaAPIController(ILogging logger, IMapper mapper,IVillaRepository villaRepository)
         {
             _logger = logger;
-            _applicationDbContext = applicationDbContext;
             _mapper = mapper;
+            _villaRepository = villaRepository;
         }
 
         [HttpGet]
@@ -30,7 +32,7 @@ namespace Villa.Controllers
         public async Task<ActionResult<VillaDTo>> GetVillas()
         {
             _logger.Log("Getting all villas","");
-            List<Models.Villa> villaList = await _applicationDbContext.Villas.ToListAsync();
+            IEnumerable<Models.Villa> villaList = await _villaRepository.GetAllAsync();
             return Ok(_mapper.Map<VillaDTo>(villaList));
         }
 
@@ -45,7 +47,7 @@ namespace Villa.Controllers
                 _logger.Log("Invalid villa ID", "error");
                 return BadRequest();
             }
-            var villa = await _applicationDbContext.Villas.FirstOrDefaultAsync(v => v.Id == id);
+            var villa = await _villaRepository.GetAsync(v => v.Id == id);
             if (villa == null)
             {
                 return NotFound();
@@ -57,7 +59,7 @@ namespace Villa.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<VillaDTo>> CreateVilla([FromBody] VillaCreateDTo villaDTovilla)
         {
-            if (await _applicationDbContext.Villas.FirstOrDefaultAsync(u => u.Name.ToLower() == villaDTovilla.Name.ToLower()) != null)
+            if (await _villaRepository.GetAsync(u => u.Name.ToLower() == villaDTovilla.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Villa already exists!");
                 return BadRequest(ModelState);
@@ -67,27 +69,12 @@ namespace Villa.Controllers
             {
                 return BadRequest(villaDTovilla);
             }
-            //if (villaDTovilla.Id > 0)
-            //{
-            //    return StatusCode(StatusCodes.Status500InternalServerError);
-            //}
+           
             Models.Villa villa = _mapper.Map<Models.Villa>(villaDTovilla);
 
-            //Models.Villa villa = new()
-            //{
-            //    Name = villaDTovilla.Name,
-            //    Occupancy = villaDTovilla.Occupancy,
-            //    Sqft = villaDTovilla.Sqft,
-            //    ImageUrl = villaDTovilla.ImageUrl,
-            //    Amenity = villaDTovilla.Amenity,
-            //    Details = villaDTovilla.Details,
-            //    Rate = villaDTovilla.Rate,
-            //    CreatedDate = DateTime.Now,
-            //    UpdatedDate = DateTime.Now
-            //};
+            
+           await _villaRepository.CreateAsync(villa);
 
-            await _applicationDbContext.Villas.AddAsync(villa);
-            await _applicationDbContext.SaveChangesAsync();
             return CreatedAtRoute("GetVilla", new { id = villa.Id }, villa);
         }
 
@@ -101,13 +88,12 @@ namespace Villa.Controllers
             {
                 return BadRequest();
             }
-            var villa =await _applicationDbContext.Villas.FirstOrDefaultAsync(v => v.Id == id);
+            var villa =await _villaRepository.GetAsync(v => v.Id == id);
             if (villa == null)
             {
                 return NotFound();
             }
-            _applicationDbContext.Villas.Remove(villa);
-           await _applicationDbContext.SaveChangesAsync();
+           await _villaRepository.RemoveAsync(villa);
             return NoContent();
         }
 
@@ -123,20 +109,8 @@ namespace Villa.Controllers
 
             Models.Villa villa = _mapper.Map<Models.Villa>(villaDTovilla);
 
-            //Models.Villa villa = new()
-            //{
-            //    Name = villaDTovilla.Name,
-            //    Occupancy = villaDTovilla.Occupancy,
-            //    Sqft = villaDTovilla.Sqft,
-            //    ImageUrl = villaDTovilla.ImageUrl,
-            //    Amenity = villaDTovilla.Amenity,
-            //    Details = villaDTovilla.Details,
-            //    Rate = villaDTovilla.Rate,
-            //    CreatedDate = DateTime.Now,
-            //    UpdatedDate = DateTime.Now
-            //};
-            _applicationDbContext.Villas.Update(villa);
-            await _applicationDbContext.SaveChangesAsync();
+           await _villaRepository.UpdateAsync(villa);
+
             return NoContent();
         }
 
@@ -149,20 +123,9 @@ namespace Villa.Controllers
             {
                 return BadRequest();
             }
-            var villa = await _applicationDbContext.Villas.AsNoTracking().FirstOrDefaultAsync(v => v.Id == id);
+            var villa = await _villaRepository.GetAsync(v => v.Id == id,tracked:false);
 
             VillaUpdateDTo villaDTo=_mapper.Map<VillaUpdateDTo>(villa);
-
-            //VillaUpdateDTo villaDTo = new()
-            //{
-            //    Name = villa.Name,
-            //    Occupancy = villa.Occupancy,
-            //    Sqft = villa.Sqft,
-            //    ImageUrl = villa.ImageUrl,
-            //    Amenity = villa.Amenity,
-            //    Details = villa.Details,
-            //    Rate = villa.Rate
-            //};  
 
             if (villa == null)
             {
@@ -173,19 +136,7 @@ namespace Villa.Controllers
 
             Models.Villa villaModel = _mapper.Map<Models.Villa>(villaDTo);
 
-            //Models.Villa villaModel = new()
-            //{
-            //    Name = villaDTo.Name,
-            //    Occupancy = villaDTo.Occupancy,
-            //    Sqft = villaDTo.Sqft,
-            //    ImageUrl = villaDTo.ImageUrl,
-            //    Amenity = villaDTo.Amenity,
-            //    Details = villaDTo.Details,
-            //    Rate = villaDTo.Rate
-            //};
-
-            _applicationDbContext.Villas.Update(villaModel);
-            await _applicationDbContext.SaveChangesAsync();
+          await _villaRepository.UpdateAsync(villaModel);
 
             if (!ModelState.IsValid)
             {

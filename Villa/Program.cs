@@ -3,6 +3,8 @@ using Serilog;
 using Villa;
 using Villa.Data;
 using Villa.Logging;
+using Villa.Repository;
+using Villa.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DBServer140"));
 });
 
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 
 builder.Services.AddControllers(option =>
