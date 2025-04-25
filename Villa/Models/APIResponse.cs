@@ -4,7 +4,7 @@ namespace Villa.Models
 {
     public class APIResponse
     {
-        public HttpStatusCode StatusCode { get; set; } = 200;
+        public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
         public bool IsSuccess { get; set; } = true;
         public object? Result { get; set; }
         public List<string>? Errors { get; set; }
