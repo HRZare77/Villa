@@ -13,6 +13,12 @@ namespace Villa
 
             CreateMap<Models.Villa, VillaUpdateDTo>().ReverseMap();
             CreateMap<Models.Villa, VillaCreateDTo>().ReverseMap();
+
+            CreateMap<Models.VillaNumber, VillaNumberDTo>().ReverseMap();
+            CreateMap<VillaNumberDTo, Models.VillaNumber>().ReverseMap();
+
+            CreateMap<Models.VillaNumber, VillaNumberUpdateDTo>().ReverseMap();
+            CreateMap<Models.VillaNumber, VillaNumberCreateDTo>().ReverseMap();
         }
     }
 }
