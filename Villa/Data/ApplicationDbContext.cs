@@ -20,7 +20,7 @@ namespace Villa.Data
 
                 new Villa.Models.Villa
                 {
-                    Id = 1,
+                    Id =20,
                     Name = "Royal Villa",
                     Occupancy = 5,
                     Sqft = 500,
@@ -33,7 +33,7 @@ namespace Villa.Data
                 },
                 new Villa.Models.Villa
                 {
-                    Id = 2,
+                    Id = 22,
                     Name = "Beachfront Villa",
                     Occupancy = 4,
                     Sqft = 400,
@@ -46,7 +46,7 @@ namespace Villa.Data
                 },
                 new Villa.Models.Villa
                 {
-                    Id = 3,
+                    Id =23,
                     Name = "Mountain View Villa",
                     Occupancy = 6,
                     Sqft = 600,
@@ -59,7 +59,7 @@ namespace Villa.Data
                 },
                 new Villa.Models.Villa
                 {
-                    Id = 4,
+                    Id = 24,
                     Name = "Luxury Villa",
                     Occupancy = 8,
                     Sqft = 800,

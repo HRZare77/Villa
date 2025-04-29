@@ -1,4 +1,6 @@
 using Villa_Web;
+using Villa_Web.Services;
+using Villa_Web.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
+builder.Services.AddScoped<IVillaService, VillaService>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
