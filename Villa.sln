@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villa", "Villa\Villa.csproj", "{0ED56B62-B3BB-477A-8DED-AD728CF7F62A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villa_Web", "Villa_Web\Villa_Web.csproj", "{F59DDDAE-55D0-4A34-AB3E-819F6EF972BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0ED56B62-B3BB-477A-8DED-AD728CF7F62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ED56B62-B3BB-477A-8DED-AD728CF7F62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ED56B62-B3BB-477A-8DED-AD728CF7F62A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F59DDDAE-55D0-4A34-AB3E-819F6EF972BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F59DDDAE-55D0-4A34-AB3E-819F6EF972BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F59DDDAE-55D0-4A34-AB3E-819F6EF972BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F59DDDAE-55D0-4A34-AB3E-819F6EF972BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
