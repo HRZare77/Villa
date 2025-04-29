@@ -1,7 +1,11 @@
+using Villa_Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 
 var app = builder.Build();
 
