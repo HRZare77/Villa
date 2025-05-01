@@ -25,5 +25,30 @@ namespace Villa_Web.Controllers
             }
             return View(new List<VillaDTo>());
         }
+
+        public async Task<IActionResult> CreateVilla()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateVilla(VillaCreateDTo villaCreateDTo)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _villaService.CreateAsync<APIResponse>(villaCreateDTo);
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Villa created successfully";
+                    return RedirectToAction("IndexVilla");
+                }
+                else
+                {
+                    TempData["error"] = response.Errors.FirstOrDefault();
+                }
+            }
+            return View(villaCreateDTo);
+        }
     }
 }

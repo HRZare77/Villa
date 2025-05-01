@@ -20,7 +20,7 @@ namespace Villa.Data
 
                 new Villa.Models.Villa
                 {
-                    Id =20,
+                    Id =1,
                     Name = "Royal Villa",
                     Occupancy = 5,
                     Sqft = 500,
@@ -28,12 +28,12 @@ namespace Villa.Data
                     Amenity = "Pool, Gym",
                     Details = "Luxurious villa with a private pool and gym.",
                     Rate = 200.00,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2024, 01, 01),
+                    UpdatedDate = new DateTime(2024, 01, 01)
                 },
                 new Villa.Models.Villa
                 {
-                    Id = 22,
+                    Id = 2,
                     Name = "Beachfront Villa",
                     Occupancy = 4,
                     Sqft = 400,
@@ -41,12 +41,12 @@ namespace Villa.Data
                     Amenity = "Beach Access, Spa",
                     Details = "Beautiful villa with direct beach access and spa services.",
                     Rate = 250.00,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2024, 01, 01),
+                    UpdatedDate = new DateTime(2024, 01, 01)
                 },
                 new Villa.Models.Villa
                 {
-                    Id =23,
+                    Id =3,
                     Name = "Mountain View Villa",
                     Occupancy = 6,
                     Sqft = 600,
@@ -54,12 +54,12 @@ namespace Villa.Data
                     Amenity = "Hiking, Fireplace",
                     Details = "Cozy villa with stunning mountain views and a fireplace.",
                     Rate = 180.00,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2024, 01, 01),
+                    UpdatedDate = new DateTime(2024, 01, 01)
                 },
                 new Villa.Models.Villa
                 {
-                    Id = 24,
+                    Id = 4,
                     Name = "Luxury Villa",
                     Occupancy = 8,
                     Sqft = 800,
@@ -67,8 +67,8 @@ namespace Villa.Data
                     Amenity = "Private Chef, Pool",
                     Details = "Spacious villa with a private chef and pool.",
                     Rate = 300.00,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2024, 01, 01),
+                    UpdatedDate = new DateTime(2024, 01, 01)
                 }
                 );
         }

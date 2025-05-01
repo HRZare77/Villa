@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IVillaService, VillaService>();
 
 builder.Services.AddHttpClient();

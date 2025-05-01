@@ -22,12 +22,12 @@ namespace Villa.Controllers
         private readonly IMapper _mapper;
         private readonly IVillaRepository _villaRepository;
 
-        public VillaAPIController(ILogging logger, IMapper mapper, IVillaRepository villaRepository, APIResponse response)
+        public VillaAPIController(ILogging logger, IMapper mapper, IVillaRepository villaRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _villaRepository = villaRepository;
-            _response = response;
+            _response = new APIResponse(); 
         }
 
         [HttpGet]
@@ -51,7 +51,7 @@ namespace Villa.Controllers
             return _response;
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

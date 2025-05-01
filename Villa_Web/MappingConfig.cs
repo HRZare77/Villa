@@ -8,17 +8,12 @@ namespace Villa_Web
     {
         public MappingConfig()
         {
-            CreateMap<Models.Villa, VillaDTo>().ReverseMap();
-            CreateMap<VillaDTo, Models.Villa>().ReverseMap();
+            CreateMap<Villa_Web.Models.Villa, VillaDTo>().ReverseMap();
+            CreateMap<Villa_Web.Models.Villa, VillaCreateDTo>().ReverseMap();
+            CreateMap<Villa_Web.Models.Villa, VillaUpdateDTo>().ReverseMap();
 
-            CreateMap<Models.Villa, VillaUpdateDTo>().ReverseMap();
-            CreateMap<Models.Villa, VillaCreateDTo>().ReverseMap();
 
             CreateMap<Models.VillaNumber, VillaNumberDTo>().ReverseMap();
-            CreateMap<VillaNumberDTo, Models.VillaNumber>().ReverseMap();
-
-            CreateMap<Models.VillaNumber, VillaNumberUpdateDTo>().ReverseMap();
-            CreateMap<Models.VillaNumber, VillaNumberCreateDTo>().ReverseMap();
         }
     }
 }
