@@ -1,8 +1,41 @@
-﻿@{
+﻿@model IEnumerable<Villa_Web.Models.Dto.VillaDTo>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<img class="d-block w-100" src="images/home/1.jpg">
+
+<hr />
+<div class="row" style="--bs-gutter-x:0">
+    @foreach(var villa in Model)
+    {
+        <div class="p-4 col-md-12 col-lg-6">
+            <div class="row" style="border-radius:20px;border:1px solid #ffffff">
+                <div class="col-4">
+                    <img src="@villa.ImageUrl" class="d-block w-100" style="border-radius:20px;" alt="...">
+                </div>
+                <div class="col-8">
+                    <p class="card-title text-warning" style="font-size: 30px;">@villa.Name</p>
+                    <p class="card-text text-dark" style="font-size: 20px;">@villa.Details</p>
+                </div>
+                <div class="col-12">
+                    <div class="row pb-3 pt-2">
+                        <div class="col-4">
+                            <a href="" class="btn btn-success form-control btn-block">Book</a>
+                        </div>
+                        <div class="col-4">
+                            <span class="text-dark" style="font-size: 20px;">Occupancy: @villa.Occupancy</span>
+                            <span class="text-dark" style="font-size: 20px;">Sqft: @villa.Sqft</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="text-warning float-end font-weight-bold pt-1" style="font-size:25px;">
+                                USD
+                                <span class="text-dark" style="font-size: 20px;border-bottom:1px solid #ff6a00">@villa.Rate.ToString()</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
