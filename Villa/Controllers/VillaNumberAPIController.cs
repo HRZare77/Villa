@@ -39,7 +39,7 @@ namespace Villa.Controllers
             _logger.Log("Getting all villas", "");
             try
             {
-                IEnumerable<Models.VillaNumber> villaList = await _villaNumberRepository.GetAllAsync();
+                IEnumerable<Models.VillaNumber> villaList = await _villaNumberRepository.GetAllAsync(includeProperties : "Villa");
                 _response.Result = _mapper.Map<List<VillaNumberDTo>>(villaList);
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Ok(_response);
