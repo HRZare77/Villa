@@ -50,5 +50,41 @@ namespace Villa_Web.Controllers
             }
             return View(villaCreateDTo);
         }
+
+        public async Task<IActionResult> UpdateVilla( int id)
+        {
+            var response = await _villaService.GetAsync<APIResponse>(id);
+            if (response != null && response.IsSuccess)
+            {
+                VillaDTo model = _mapper.Map<VillaDTo>(response.Result);
+                return View(model);
+            }
+            else
+            {
+                TempData["error"] = response.Errors.FirstOrDefault();
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateVilla(VillaUpdateDTo villaUpdateDTo)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _villaService.UpdateAsync<APIResponse>(villaUpdateDTo);
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Villa created successfully";
+                    return RedirectToAction("IndexVilla");
+                }
+                else
+                {
+                    TempData["error"] = response.Errors.FirstOrDefault();
+                }
+            }
+            return View(villaUpdateDTo);
+        }
     }
 }
