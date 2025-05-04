@@ -1,40 +1,37 @@
-﻿@model Villa_Web.Models.VM.VillaNumberCreateVM
+﻿@model Villa_Web.Models.VM.VillaNumberDeleteVM
 
 
-<form asp-action="CreateVillaNumber">
+<form asp-action="DeleteVillaNumber">
     <br />
     <div class="container border p-3">
-        <h1 class="text-primary">Create Villa Number</h1>
+        <h1 class="text-primary">Delete Villa Number</h1>
         <hr />
-
+        <input type="hidden" asp-for="VillaNumber.VillaNo" />
         <div class="row">
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="col-12">
                 <label asp-for="VillaNumber.VillaNo" class="form-label"></label>
-                <input asp-for="VillaNumber.VillaNo" class="form-control" />
-                <span asp-validation-for="VillaNumber.VillaNo" class="text-danger"></span>
+                <input asp-for="VillaNumber.VillaNo" disabled class="form-control" />
             </div>
 
             <div class="col-12">
                 <label asp-for="VillaNumber.VillaId" class="form-label"></label>
-                <select asp-for="VillaNumber.VillaId" class="form-select" asp-items="@Model.VillaList">
+                <select asp-for="VillaNumber.VillaId" class="form-select" disabled asp-items="@Model.VillaList">
                     <option value="">Select Villa</option>
                 </select>
-                <span asp-validation-for="VillaNumber.VillaId" class="text-danger"></span>
             </div>
 
             <div class="col-12">
                 <label asp-for="VillaNumber.SpecialDetails" class="form-label"></label>
-                <textarea asp-for="VillaNumber.SpecialDetails" class="form-control"></textarea>
-                <span asp-validation-for="VillaNumber.SpecialDetails" class="text-danger"></span>
+                <textarea asp-for="VillaNumber.SpecialDetails" readonly class="form-control"></textarea>
             </div>
 
             <div class="col-5 offset-2">
                 <a asp-action="IndexVillaNumber" asp-controller="VillaNumber" class="btn-secondary btn form-control">Back To List</a>
             </div>
             <div class="col-5">
-                <input type="submit" value="Create" class="btn-primary btn form-control" />
+                <input type="submit" value="Delete" class="btn-primary btn form-control" />
             </div>
         </div>
     </div>
