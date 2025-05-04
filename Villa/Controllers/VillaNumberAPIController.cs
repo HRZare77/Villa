@@ -96,13 +96,13 @@ namespace Villa.Controllers
             {
                 if (await _villaNumberRepository.GetAsync(u => u.VillaNo == villaDTovilla.VillaNo) != null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa Number already exists!");
+                    ModelState.AddModelError("ErrorMessages", "Villa Number already exists!");
                     return BadRequest(ModelState);
                 }
 
                 if (await _villaRepository.GetAsync(u=>u.Id==villaDTovilla.VillaId)==null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa Id is Invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Villa Id is Invalid!");
                     return BadRequest(ModelState);
                 }
 
