@@ -19,6 +19,9 @@ namespace Villa
 
             CreateMap<Models.VillaNumber, VillaNumberUpdateDTo>().ReverseMap();
             CreateMap<Models.VillaNumber, VillaNumberCreateDTo>().ReverseMap();
+
+            CreateMap<RgisterationRequestDTO, LocalUser>().ReverseMap();
+            CreateMap<LocalUser, RgisterationRequestDTO>().ReverseMap();
         }
     }
 }
