@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Villa;
@@ -27,6 +28,24 @@ builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 
+builder.Services.AddAuthentication(x=>
+{
+    x.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("ApiSettings:Secret"))),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
 builder.Services.AddControllers(option =>
 {
     option.ReturnHttpNotAcceptable = true;
@@ -46,7 +65,7 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
