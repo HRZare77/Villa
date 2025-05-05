@@ -33,6 +33,12 @@ builder.Services.AddApiVersioning(option =>
     option.ReportApiVersions = true;
 });
 
+builder.Services.AddVersionedApiExplorer(option =>
+{
+    option.GroupNameFormat = "'v'VVV";
+    option.SubstituteApiVersionInUrl = true;
+});
+
 builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 
 builder.Services.AddAuthentication(x=>
@@ -80,6 +86,7 @@ builder.Services.AddSwaggerGen(option =>
                 }
             }, new string[] {}}
     });
+    option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "VillaAPI", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -88,7 +95,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options=>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "VillaAPI V1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "VillaAPI V2");
+        options.RoutePrefix = string.Empty;
+    });
 }
 app.UseRouting();
 
