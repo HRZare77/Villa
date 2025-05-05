@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Models.Dto;
 using Villa.Repository.IRepository;
 
-namespace Villa.Controllers.v1
+namespace Villa.Controllers
 {
     [Route("api/v{version:apiVersion}/UsersAuth")]
-    [ApiVersion("1.0")]
+    [ApiVersionNeutral]
     [ApiController]
     public class UsersController : ControllerBase
     {

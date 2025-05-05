@@ -89,6 +89,13 @@ namespace Villa.Controllers.v1
             return _response;
         }
 
+        //[MapToApiVersion("2.0")]
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "string1", "string2" };
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] VillaNumberCreateDTo villaDTovilla)

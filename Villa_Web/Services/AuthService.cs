@@ -21,7 +21,7 @@ namespace Villa_Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = loginRequestDTO,
-                Url = _villaUrl + "/api/UsersAuth/login"
+                Url = _villaUrl + "/api/v1/UsersAuth/login"
             };
             return SendAsync<T>(request);
         }
@@ -31,7 +31,7 @@ namespace Villa_Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = registerRequestDTO,
-                Url = _villaUrl + "/api/UsersAuth/register"
+                Url = _villaUrl + "/api/v1/UsersAuth/register"
             };
             return SendAsync<T>(request);
         }
