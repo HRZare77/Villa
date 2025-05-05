@@ -32,6 +32,7 @@ namespace Villa.Controllers.v1
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 30)]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillas()
