@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Villa_Utility;
 using Villa_Web.Models;
@@ -33,6 +35,13 @@ namespace Villa_Web.Controllers
                 if (response != null && response.IsSuccess)
                 {
                     LoginResponseDTO loginResponseDTO = JsonConvert.DeserializeObject<LoginResponseDTO>(response.Result.ToString());
+
+                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    identity.AddClaim(new Claim(ClaimTypes.Name, loginResponseDTO.User.UserName));
+                    identity.AddClaim(new Claim(ClaimTypes.Role, loginResponseDTO.User.Role.ToString()));
+                    var principal = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
                     HttpContext.Session.SetString(SD.SessionToken, loginResponseDTO.Token.ToString());
                     return RedirectToAction("Index", "Home");
                 }
