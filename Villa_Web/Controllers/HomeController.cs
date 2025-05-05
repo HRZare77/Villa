@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Villa_Utility;
 using Villa_Web.Models;
 using Villa_Web.Models.Dto;
 using Villa_Web.Services.IServices;
@@ -18,7 +19,7 @@ public class HomeController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        var list = await _villaService.GetAllAsync<APIResponse>();
+        var list = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
         if (list != null && list.IsSuccess)
         {
             var model = _mapper.Map<List<VillaDTo>>(list.Result);

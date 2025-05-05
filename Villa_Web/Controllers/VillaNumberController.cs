@@ -8,6 +8,7 @@ using Villa_Web.Services;
 using Villa_Web.Models.VM;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using Villa_Utility;
 
 namespace Villa_Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace Villa_Web.Controllers
 
         public async Task<IActionResult> IndexVillaNumber()
         {
-            var list = await _villaNumberService.GetAllAsync<APIResponse>();
+            var list = await _villaNumberService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (list != null && list.IsSuccess)
             {
                 var model = _mapper.Map<List<VillaNumberDTo>>(list.Result);
@@ -38,7 +39,7 @@ namespace Villa_Web.Controllers
         public async Task<IActionResult> CreateVillaNumber()
         {
             VillaNumberCreateVM villaNumberCreateVM = new();
-            var list = await _villaService.GetAllAsync<APIResponse>();
+            var list = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (list != null && list.IsSuccess)
             {
                 Console.WriteLine("Result: " + list.Result);
@@ -59,7 +60,7 @@ namespace Villa_Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _villaNumberService.CreateAsync<APIResponse>(villaNumberCreateVM.VillaNumber);
+                var response = await _villaNumberService.CreateAsync<APIResponse>(villaNumberCreateVM.VillaNumber, HttpContext.Session.GetString(SD.SessionToken));
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexVillaNumber));
@@ -76,7 +77,7 @@ namespace Villa_Web.Controllers
                 }
             }
 
-            var list = await _villaService.GetAllAsync<APIResponse>();
+            var list = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (list != null && list.IsSuccess)
             {
                 Console.WriteLine("Result: " + list.Result);
@@ -95,15 +96,15 @@ namespace Villa_Web.Controllers
         public async Task<IActionResult> UpdateVillaNumber(int villaNo)
         {
             VillaNumberUpdateVM villaNumberUpdateVM= new();
-            var response = await _villaNumberService.GetAsync<APIResponse>(villaNo);
+            var response = await _villaNumberService.GetAsync<APIResponse>(villaNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 VillaNumberDTo model = _mapper.Map<VillaNumberDTo>(response.Result);
                 villaNumberUpdateVM.VillaNumber = _mapper.Map<VillaNumberUpdateDTo>(model);
             }
 
-            response = await _villaService.GetAllAsync<APIResponse>();
-            if (response != null && response.IsSuccess)
+            response = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken) );
+             if (response != null && response.IsSuccess)
             {
                 Console.WriteLine("Result: " + response.Result);
                 var originalList = response.Result as List<Villa>;
@@ -125,7 +126,7 @@ namespace Villa_Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _villaNumberService.UpdateAsync<APIResponse>(villaNumberUpdateVM.VillaNumber);
+                var response = await _villaNumberService.UpdateAsync<APIResponse>(villaNumberUpdateVM.VillaNumber, HttpContext.Session.GetString(SD.SessionToken));
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexVillaNumber));
@@ -142,7 +143,7 @@ namespace Villa_Web.Controllers
                 }
             }
 
-            var list = await _villaService.GetAllAsync<APIResponse>();
+            var list = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (list != null && list.IsSuccess)
             {
                 Console.WriteLine("Result: " + list.Result);
@@ -161,14 +162,14 @@ namespace Villa_Web.Controllers
         public async Task<IActionResult> DeleteVillaNumber(int villaNo)
         {
             VillaNumberDeleteVM villaNumberDeleteVM= new();
-            var response = await _villaNumberService.GetAsync<APIResponse>(villaNo);
+            var response = await _villaNumberService.GetAsync<APIResponse>(villaNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 VillaNumberDTo model = _mapper.Map<VillaNumberDTo>(response.Result);
                 villaNumberDeleteVM.VillaNumber =model;
             }
 
-            response = await _villaService.GetAllAsync<APIResponse>();
+            response = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 Console.WriteLine("Result: " + response.Result);
@@ -190,7 +191,7 @@ namespace Villa_Web.Controllers
         public async Task<IActionResult> DeleteVillaNumber(VillaNumberDeleteVM villaNumberDeleteVM)
         {
 
-            var response = await _villaNumberService.DeleteAsync<APIResponse>(villaNumberDeleteVM.VillaNumber.VillaNo);
+            var response = await _villaNumberService.DeleteAsync<APIResponse>(villaNumberDeleteVM.VillaNumber.VillaNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 return RedirectToAction("IndexVillaNumber");

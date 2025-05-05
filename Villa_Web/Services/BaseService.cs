@@ -46,6 +46,12 @@ namespace Villa_Web.Services
                 }
 
                 HttpResponseMessage apiResponse = await client.SendAsync(message);
+
+                if(!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
+
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 try
                 {
