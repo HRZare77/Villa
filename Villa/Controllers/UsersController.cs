@@ -6,7 +6,7 @@ using Villa.Repository.IRepository;
 
 namespace Villa.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/UsersAuth")]
     [ApiController]
     public class UsersController : ControllerBase
     {

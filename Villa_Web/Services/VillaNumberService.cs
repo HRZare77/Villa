@@ -41,7 +41,7 @@ namespace Villa_Web.Services
             var request = new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = _villaUrl + "api/VillaNumberAPI"
+                Url = _villaUrl + "/api/VillaNumberAPI"
             };
             return SendAsync<T>(request);
         }
