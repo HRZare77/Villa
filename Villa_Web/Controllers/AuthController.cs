@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using Villa_Utility;
 using Villa_Web.Models;
 using Villa_Web.Models.Dto;
 using Villa_Web.Services.IServices;
@@ -23,15 +27,18 @@ namespace Villa_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginRequestDTO loginRequestDTO)
         {
+            var response = await _authService.LoginAsync<APIResponse>(loginRequestDTO);
             if (ModelState.IsValid)
             {
-                var response = await _authService.LoginAsync<APIResponse>(loginRequestDTO);
                 if (response != null && response.IsSuccess)
                 {
-                    HttpContext.Session.SetString("JWToken", response.Result.ToString());
+                    LoginResponseDTO loginResponseDTO = JsonConvert.DeserializeObject<LoginResponseDTO>(response.Result.ToString());
+                    HttpContext.Session.SetString(SD.SessionToken, loginResponseDTO.Token.ToString());
                     return RedirectToAction("Index", "Home");
                 }
             }
+
+            ModelState.AddModelError("ErrorMessages", response.Errors.FirstOrDefault());
             return View(loginRequestDTO);
         }
 
@@ -58,9 +65,11 @@ namespace Villa_Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+          await HttpContext.SignOutAsync();
+            HttpContext.Session.SetString(SD.SessionToken, string.Empty);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
