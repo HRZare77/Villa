@@ -87,6 +87,7 @@ builder.Services.AddSwaggerGen(option =>
             }, new string[] {}}
     });
     option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "VillaAPI", Version = "v1" });
+    option.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "VillaAPI", Version = "v2" });
 });
 
 var app = builder.Build();
