@@ -28,19 +28,28 @@ namespace Villa.Controllers.v1
             _logger = logger;
             _mapper = mapper;
             _villaRepository = villaRepository;
-            _response = new APIResponse(); 
+            _response = new APIResponse();
         }
 
         [HttpGet]
         [ResponseCache(CacheProfileName = "Default30")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "fillterOccupancy")] int? occupancy)
         {
             _logger.Log("Getting all villas", "");
             try
             {
-                IEnumerable<Models.Villa> villaList = await _villaRepository.GetAllAsync();
+                IEnumerable<Models.Villa> villaList;
+                if (occupancy > 0)
+                {
+                    villaList = await _villaRepository.GetAllAsync(u => u.Occupancy == occupancy);
+                }
+                else
+                {
+                    villaList = await _villaRepository.GetAllAsync();
+                }
+                   
                 _response.Result = _mapper.Map<List<VillaDTo>>(villaList);
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Ok(_response);
@@ -85,7 +94,7 @@ namespace Villa.Controllers.v1
             {
                 _response.IsSuccess = false;
                 _response.Errors.Add(ex.ToString());
-                                      }
+            }
             return _response;
         }
 
