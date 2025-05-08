@@ -16,13 +16,15 @@ namespace Villa.Repository
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private string secretKey;
-        public UserRepository(ApplicationDbContext db, IMapper mapper,IConfiguration configuration,UserManager<ApplicationUser> userManager)
+        public UserRepository(ApplicationDbContext db, IMapper mapper,IConfiguration configuration,UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _mapper = mapper;
             secretKey = configuration.GetValue<string>("ApiSettings:Secret");
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
@@ -62,6 +64,12 @@ namespace Villa.Repository
         {
             ApplicationUser user = _mapper.Map<ApplicationUser>(rgisterationRequestDTO);
             _userManager.CreateAsync(user);
+            if (! _roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult())
+            {
+                await _roleManager.CreateAsync(new IdentityRole("admin"));
+                await _roleManager.CreateAsync(new IdentityRole("customer"));
+            }
+
             await _userManager.AddToRoleAsync(user, "admin");
             var localUser =_db.ApplicationUsers.FirstOrDefault(u=>u.UserName== rgisterationRequestDTO.UserName);
             return _mapper.Map<UserDTO>(localUser);
