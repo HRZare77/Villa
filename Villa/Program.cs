@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Villa;
 using Villa.Data;
 using Villa.Logging;
+using Villa.Models;
 using Villa.Repository;
 using Villa.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 
