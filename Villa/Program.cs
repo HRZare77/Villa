@@ -63,6 +63,11 @@ builder.Services.AddAuthentication(x=>
 
 builder.Services.AddControllers(option =>
 {
+    option.CacheProfiles.Add("Default30", new Microsoft.AspNetCore.Mvc.CacheProfile()
+    {
+        Duration = 30
+    });
+
     option.ReturnHttpNotAcceptable = true;
     }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
