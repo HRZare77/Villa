@@ -35,7 +35,7 @@ namespace Villa.Controllers.v1
         [ResponseCache(CacheProfileName = "Default30")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "fillterOccupancy")] int? occupancy,[FromQuery]string search)
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "fillterOccupancy")] int? occupancy,[FromQuery]string search, int pageSize = 2, int pageNumber = 1)
         {
             _logger.Log("Getting all villas", "");
             try
@@ -43,11 +43,11 @@ namespace Villa.Controllers.v1
                 IEnumerable<Models.Villa> villaList;
                 if (occupancy > 0)
                 {
-                    villaList = await _villaRepository.GetAllAsync(u => u.Occupancy == occupancy);
+                    villaList = await _villaRepository.GetAllAsync(u => u.Occupancy == occupancy,pageSize:pageSize,pageNumber:pageNumber);
                 }
                 else
                 {
-                    villaList = await _villaRepository.GetAllAsync();
+                    villaList = await _villaRepository.GetAllAsync(pageSize: pageSize, pageNumber: pageNumber);
                 }
                 if (!string.IsNullOrEmpty(search))
                 {

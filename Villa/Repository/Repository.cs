@@ -21,11 +21,15 @@ namespace Villa.Repository
             await _dbSet.AddAsync(entity);
             await SaveAsync();
         }
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, int pageSize = 3, int pageNumber = 1)
         {
             IQueryable<T> query = _dbSet;
             if (filter != null)
                 query = query.Where(filter);
+            if(pageSize>0)
+            {
+                query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            }
             if (includeProperties != null)
             {
                 foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
