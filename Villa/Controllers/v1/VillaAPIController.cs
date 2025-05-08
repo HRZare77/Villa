@@ -53,7 +53,13 @@ namespace Villa.Controllers.v1
                 {
                     villaList = villaList.Where(v => v.Name.ToLower().Contains(search.ToLower()) || v.Amenity.ToLower().Contains(search.ToLower()));
                 }
-                   
+                Pagination pagination = new()
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+                Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(pagination));
+
                 _response.Result = _mapper.Map<List<VillaDTo>>(villaList);
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Ok(_response);
