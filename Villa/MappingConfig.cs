@@ -22,6 +22,7 @@ namespace Villa
 
             CreateMap<RgisterationRequestDTO, LocalUser>().ReverseMap();
             CreateMap<LocalUser, RgisterationRequestDTO>().ReverseMap();
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
         }
     }
 }
