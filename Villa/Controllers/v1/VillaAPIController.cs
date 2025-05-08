@@ -35,7 +35,7 @@ namespace Villa.Controllers.v1
         [ResponseCache(CacheProfileName = "Default30")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "fillterOccupancy")] int? occupancy)
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "fillterOccupancy")] int? occupancy,[FromQuery]string search)
         {
             _logger.Log("Getting all villas", "");
             try
@@ -48,6 +48,10 @@ namespace Villa.Controllers.v1
                 else
                 {
                     villaList = await _villaRepository.GetAllAsync();
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(v => v.Name.ToLower().Contains(search.ToLower()) || v.Amenity.ToLower().Contains(search.ToLower()));
                 }
                    
                 _response.Result = _mapper.Map<List<VillaDTo>>(villaList);
